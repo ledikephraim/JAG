@@ -57,13 +57,16 @@ Add any SQL schema changes here
 **Answer**
 
 **SQL**
-`Select....`
+SELECT SUM(Earnings)-SUM(Cost) 'Profit'
+FROM [LeadDetail]
+
 
 2) Total Profit (Earnings less VAT)
 **Answer**
 
 **SQL**
-`Select....`
+SELECT SUM(Earnings)-(SUM(Cost)*1.15) 'Profit (inc VAT)'
+FROM [LeadDetail]
 
 3) Profitable campaigns
 **Answer**
@@ -82,10 +85,23 @@ WHERE profits.[Profit (inc VAT)] > 0
 **Answer**
 
 **SQL**
-`Select....`
+SELECT a.Sales,a.Accepted, CAST(a.Sales AS float)/CAST(a.Accepted AS float) ConversionRate
+FROM 
+(SELECT  SUM(CASE WHEN [IsSold] = 1 THEN 1 ELSE 0 END) 'Sales' , SUM(CASE WHEN [IsAccepted] =1 THEN 1 ELSE 0 END) 'Accepted'
+FROM [LeadDetail]
+WHERE LeadId IN (SELECT DISTINCT LeadId FROM LeadDetail) 
+)a
+
 
 5) Pick 2 clients based on Profit & Conversion rate & Why?
 **Answer**
-
+I would focus on clients 205, 168  because they are the most likely to complete a sale.
 **SQL**
-`Select....`
+SELECT TOP 2 a.ClientId, a.Sales,a.Accepted,CAST( a.Sales AS float)/CAST(a.Accepted AS float)  ConversionRate
+FROM 
+(SELECT ClientId, SUM(CASE WHEN [IsSold] = 1 THEN 1 ELSE 0 END) 'Sales' , SUM(CASE WHEN [IsAccepted] =1 THEN 1 ELSE 0 END) 'Accepted'
+FROM [LeadDetail]
+WHERE LeadId IN (SELECT DISTINCT LeadId FROM LeadDetail) 
+GROUP BY ClientId
+)a
+ORDER BY ConversionRate DESC
