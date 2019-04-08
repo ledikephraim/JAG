@@ -1,0 +1,182 @@
+﻿@{
+    Layout = "~/Views/shared/_LeadLayout.cshtml";
+    ViewBag.Title = "Page title";
+}
+@using JAG.DevTest2019.Host.Models
+@model LeadViewModel
+
+@section Meta{
+    <meta name="description" content="Default site" />
+    <meta name="keywords" content="Default" />
+}
+
+<section id="quote" class="main-banner" style="background-image: url(/Content/Images/Banners/car-insurance.jpg)">
+    <div class="row">
+        <div class="slant-left col-md-9 pull-left">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="capture-form">
+                    <h1 class="text-center">Insurance</h1>
+                    <h4>Don’t pay too much, find the best insurance quotes and start saving today!</h4>
+                    @using (Html.BeginForm("SubmitLead", "Lead", FormMethod.Post, new { id = "frmsubmit" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        <div class="col-md-12">
+                            <input type="hidden" value="@Model.TrackingCode" id="hdnTrackingCode" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    My name is <br>
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = Html.DisplayNameFor(model => model.FirstName), @onblur = "handleOnBlur('firstname')", @id = "firstname" })
+                                    <label id="Errfirstname" style="color:red" hidden>First name is required !</label>
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Surname, new { @placeholder = Html.DisplayNameFor(model => model.Surname), @onblur = "handleOnBlur('secondname')", @id = "secondname" })
+                                    <label id="Errsecondname" style="color:red" hidden>Second name is required !</label>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4">
+                                    You can contact me
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    @Html.TextBoxFor(model => model.EmailAddress, new { @placeholder = Html.DisplayNameFor(model => model.EmailAddress), @id = "email" })
+
+
+                                </div>
+
+                                <div class="col-md-4 col-sm-4">
+                                    @Html.TextBoxFor(model => model.ContactNumber, new { @placeholder = Html.DisplayNameFor(model => model.ContactNumber) })
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    I am <br>
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.Gender, Model.Genders, "Gender")
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    And my language preference is <br>
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.Language, Model.Languages, "Language")
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    And my blood type is <br>
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.Language, Model.BloodTypes, "BloodType")
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-12 text-center">
+                            <button type="submit" id="btnSubmit" class="orange-button">Get Quotes Now</button>
+                        </div>
+                    }
+                    @if (Model.Results != null &&
+                        Model.Results.IsSuccessful)
+                    {
+                        <div class="col-md-12 text-center">
+                            <img src="~/Content/Images/Products/new-success.png" height="24px" />
+                            @Html.ValueFor(model => model.Results.Message)
+                        </div>
+                    }
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</section>
+<div class="clearfix"></div>
+<div class="container benefits-padding text-center">
+    <h2>Benefits</h2>
+    <div class="benefits-cols">
+        <div class="col-md-3 text-center text-instructions">
+            <img src="~/Content/Images/Products/new-save.png" />
+            <p>People saved on insurance</p>
+        </div>
+        <div class="col-md-3 text-center text-instructions">
+            <img src="~/Content/Images/Products/new-calling.png" />
+            <p>99.99% were called in under 5 minutes</p>
+        </div>
+        <div class="col-md-3 text-center text-instructions">
+            <img src="~/Content/Images/Products/new-success.png" />
+            <p>96% believe these stats</p>
+        </div>
+        <div class="col-md-3 text-center text-instructions">
+            <img src="~/Content/Images/Products/new-clients.png" />
+            <p>Over 6,000,000 queries serviced</p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div id="quote" class="testimonial-banner" style="background-image: url('../../Content/Images/Banners/best-car-insurance.jpg');">
+    <div class="slant-right col-md-9 pull-right">
+        <div class="col-md-6 col-md-offset-3 testimonials text-center">
+            <b>Getting the lowest insurance quote has never been so easy:</b>
+            <p>
+                <b>Joe Blogs (26 years)</b><br /><br />
+                Telsa model x <br />
+                Was paying R999,999.99<br />
+                Now paying R99.99
+            </p>
+            <h2 class="highlight">Insurance saving of {lots of %}</h2>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+<div class="container-blue">
+    <div class="col-md-6 col-md-offset-3 text-center">
+        <h1>Get a quote and</h1>
+        <h1 class="green">start saving now</h1>
+        <p>Get in touch to receive insurance quotes from South Africa’s top insurance companies. Getting the lowest insurance premiums has never been so easy.</p>
+        <a id="lnkGetQuote" href="#quote" class="orange-button">Get a quote now</a>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#lnkLead').addClass('activeMenu');
+
+        })
+        function handleOnBlur(param)
+        {
+
+            if ($("#" + param).val() == null || $("#"+param).val() == "") {
+
+                $("#" + param).css("border-bottom", "solid 1px red");
+                $("#Err" + param).show();
+            }
+            else {
+                $("#"+param).css("border-bottom", "");
+            $("#Err"+param).hide();
+
+            }
+        }
+        function handleEmailValidation() {
+        
+        }
+    </script>
+}
