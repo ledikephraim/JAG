@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{78DEDC79-50A
 	ProjectSection(SolutionItems) = preProject
 		sql\question10.sql = sql\question10.sql
 		sql\schema.sql = sql\schema.sql
+		schema_updated_question7.sql = schema_updated_question7.sql
 	EndProjectSection
 EndProject
 Global
