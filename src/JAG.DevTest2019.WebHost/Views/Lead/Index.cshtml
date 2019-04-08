@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="col-md-4 col-sm-4">
-                                    @Html.TextBoxFor(model => model.ContactNumber, new { @placeholder = Html.DisplayNameFor(model => model.ContactNumber) })
+                                    @Html.TextBoxFor(model => model.ContactNumber, new { @placeholder = Html.DisplayNameFor(model => model.ContactNumber) ,@id = "contactnumber"})
                                 </div>
 
                             </div>
@@ -156,6 +156,9 @@
 </div>
 
 @section Scripts{
+    <script type="text/javascript"
+             src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#lnkLead').addClass('activeMenu');
@@ -178,5 +181,41 @@
         function handleEmailValidation() {
         
         }
+        $("#btnSubmit").click(function (e) {
+
+
+            e.preventDefault();
+
+            var lead = new Object();
+            lead.FirstName = $("#firstname").val(); 
+            lead.Suranme = $("#secondname").val();
+            lead.EmailAddress = $("#email").val();
+            lead.ContactNumber = $("#contactnumber").val();
+
+            if (lead != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8099/api/Lead",
+                    data: JSON.stringify(lead).
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response != null) {
+                            //write response here
+                        }
+                        else {
+                            //write failure here
+                        }
+                    },
+                    failure: function (response) {
+                        //record failure
+                    },
+                    error: function (response) {
+                        //handle error
+                    }
+                });
+            }
+        });
+
     </script>
 }
